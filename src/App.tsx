@@ -1,22 +1,47 @@
 import * as React from "react";
+import { ReactElement, ReactHTML } from "react";
+
 import "./App.css";
 
-const logo = require("./logo.svg");
+class App extends React.Component<IAppProps, IAppState> {
+    public state: IAppState = {
+        clickCount: 0
+    };
 
-class App extends React.Component {
-    render() {
+    public render(): ReactElement<ReactHTML> {
         return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h2>Welcome to React</h2>
+            <div className="app">
+                <h1>ePub test</h1>
+                <h2>Testing events</h2>
+                {this.renderClickMessage()}
+                <div>
+                    Click on the button
+                    <button onClick={this.handleClick}>Click me</button>
                 </div>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.tsx</code> and save to reload.
-                </p>
             </div>
         );
     }
+
+    private renderClickMessage(): ReactElement<ReactHTML> | undefined {
+        if (this.state.clickCount === 0) {
+            return;
+        }
+
+        return <div>The button was clicked: {this.state.clickCount} times!</div>;
+    }
+
+    private handleClick = () => {
+        this.setState({
+            clickCount: this.state.clickCount + 1
+        });
+    }
+}
+
+interface IAppState {
+    clickCount: number;
+}
+
+interface IAppProps {
 }
 
 export default App;
